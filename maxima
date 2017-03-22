@@ -1,0 +1,189 @@
+(%i1) T:2$
+(%i2) pi:%pi$
+(%i3) w:2*pi/T$
+(%i4) f(x):=x
+$
+(%i5) plot2d(f(x),[x,-1,1])
+;
+(%o5) 
+(%i6) a:-1$
+(%i7) b:1$
+(%i8) g(x)=f(x-(b-a)*floor((x-a)/b-a))$
+(%i9) plot2d(g(x),[x,-6,6]);
+plot2d: expression evaluates to non-numeric value everywhere in plotting range.
+plot2d: nothing to plot.
+(%o9)                             false
+(%i10) g(x)=f(x-(b-a)*floor((x-a)/(b-a)))$
+(%i11) plot2d(g(x),[x,-6,6];
+incorrect syntax: Missing )
+lot2d(g(x),[x,-6,6];
+                  ^
+(%i11) plot2d(g(x),[x,-6,6]);
+plot2d: expression evaluates to non-numeric value everywhere in plotting range.
+plot2d: nothing to plot.
+(%o11)                            false
+(%i12) a0:1/T*integrate(f(x),x,-1,1);
+(%o12)                              0
+(%i13) an=2/T*integrate(f(x)*cos(n*w*x),x,-1,1);
+(%o13)                            an = 0
+(%i14) bn=2/T*integrate(f(x)*sin(n*w*x),x,-1,1);
+                       2 (sin(%pi n) - %pi n cos(%pi n))
+(%o14)            bn = ---------------------------------
+                                       2  2
+                                    %pi  n
+(%i15) declare(n,integer);
+(%o15)                             done
+(%i16) bn=2/T*integrate(f(x)*sin(n*w*x),x,-1,1);
+                                           n
+                                    2 (- 1)
+(%o16)                       bn = - --------
+                                     %pi n
+(%i17) define(b(n),bn);
+(%o17)                          b(n) := bn
+(%i18) b(3);
+(%o18)                              bn
+(%i19) b(2);
+(%o19)                              bn
+(%i20) bn:2/T*integrate(f(x)*sin(n*w*x),x,-1,1);
+                                         n
+                                  2 (- 1)
+(%o20)                          - --------
+                                   %pi n
+(%i21) define(b(n),bn)
+;
+                                             n
+                                      2 (- 1)
+(%o21)                      b(n) := - --------
+                                       %pi n
+(%i22) b(2);
+                                     1
+(%o22)                            - ---
+                                    %pi
+(%i23) an:2/T*integrate(f(x)*cos(n*w*x),x,-1,1);
+(%o23)                              0
+(%i24) define(a(n),an)
+;
+(%o24)                          a(n) := 0
+(%i25) SF(x):=a0+sum(a(n)*cos(n*w*x)+b(n)*sin(n*w*x),n,1,N);
+(%o25) SF(x) := a0 + sum(a(n) cos(n w x) + b(n) sin(n w x), n, 1, N)
+(%i26) SF(3);
+(%o26)                              0
+(%i27) SF(4);
+(%o27)                              0
+(%i28) plot2d(SF(x),[x,-6,6])
+;
+;;;;;
+plot2d: expression evaluates to non-numeric value somewhere in plotting range.
+(%o28) 
+(%i29) incorrect syntax: Premature termination of input at ;.
+;
+^
+(%i29) incorrect syntax: Premature termination of input at ;.
+;
+^
+(%i29) incorrect syntax: Premature termination of input at ;.
+;
+^
+(%i29) incorrect syntax: Premature termination of input at ;.
+;
+^
+(%i29) incorrect syntax: Premature termination of input at ;.
+;
+^
+(%i29) incorrect syntax: Premature termination of input at ;.
+;
+^
+(%i29) plot2d(SF(x),[x,-6,6]);
+
+plot2d: expression evaluates to non-numeric value somewhere in plotting range.
+(%o29) 
+(%i30) incorrect syntax: Premature termination of input at ;.
+;
+^
+(%i30) SF(x):=a0+sum(a(n)*cos(n*w*x)+b(n)*sin(n*w*x),n,1,N);
+(%o30) SF(x) := a0 + sum(a(n) cos(n w x) + b(n) sin(n w x), n, 1, N)
+(%i31) SF(x):=a0+sum(a(n)*cos(n*w*x)+b(n)*sin(n*w*x),n,1,N);
+(%o31) SF(x) := a0 + sum(a(n) cos(n w x) + b(n) sin(n w x), n, 1, N)
+(%i32) SF(x):=a0+sum(a(n)*cos(n*w*x)+b(n)*sin(n*w*x),n,1,N);
+(%o32) SF(x) := a0 + sum(a(n) cos(n w x) + b(n) sin(n w x), n, 1, N)
+(%i33) N:4;
+(%o33)                              4
+(%i34) SF(x):=a0+sum(a(n)*cos(n*w*x)+b(n)*sin(n*w*x),n,1,N);
+(%o34) SF(x) := a0 + sum(a(n) cos(n w x) + b(n) sin(n w x), n, 1, N)
+(%i35) plot2d(SF(x),[x,-6,6]);
+(%o35) 
+(%i36) plot2d(g(x),SF(x),[x,-6,6]);
+
+(%o36) 
+(%i37) plot2d(g(x),SF(x),[x,-6,6]);
+plotting: range must be of the form [variable, min, max]; found: errexp1
+ -- an error. To debug this try: debugmode(true);
+(%i38) entier:makelist(k,k,1,10);
+(%o38)               [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+(%i39) N:10;
+(%o39)                              10
+(%i40) plot2d(SF(x),[x,-6,6]);
+(%o40) 
+(%i41) A(n):=sqrt(a(n)^2+b(n)^2);
+                                     2       2
+(%o41)                 A(n) := sqrt(a (n) + b (n))
+(%i42) define(A(n),sqrt(a(n)^2+b(n)^2));
+                                        2
+(%o42)                      A(n) := ----------
+                                    %pi abs(n)
+(%i43) spectre:map(A,entier);
+         2    1     2      1      2      1      2      1      2      1
+(%o43) [---, ---, -----, -----, -----, -----, -----, -----, -----, -----]
+        %pi  %pi  3 %pi  2 %pi  5 %pi  3 %pi  7 %pi  4 %pi  9 %pi  5 %pi
+(%i44) plot2d([discrete,entier,spectre],[style,points]);
+(%o44) 
+(%i45) plot2d([discrete,entier,spectre],[style,points]);
+(%o45) 
+(%i46) Feff:1/T*integrate(f(x)^2,x,-1,1);
+                                    1
+(%o46)                              -
+                                    3
+(%i47) define(P(N):a0+sum((A(n)^2),n,1,N)/2;
+incorrect syntax: Missing )
+define(P(N);
+          ^
+(%i47) define(P(N):a0+sum((A(n)^2),n,1,N)/2);
+incorrect syntax: Missing )
+m((A(n)^2),n,1,N)/2;
+                  ^
+(%i47) define(P(N):a0+sum((A(n)^2),n,1,N)/2);
+define: wrong number of arguments.
+ -- an error. To debug this try: debugmode(true);
+(%i48) p(N)!=a0+sum((A(n)^2),n,1,N)/2;
+incorrect syntax: Too many )'s
+sum((A(n)^2),n,1,N))
+                  ^
+(%i48) p(N):=a0^2+sum((A(n)^2),n,1,N)/2;
+                                      1968329
+(%o48)                     p(10)! = -----------
+                                              2
+                                    635040 %pi
+(%i49) p(N):=a0^2+sum((A(n)^2),n,1,N)/2;
+                                       2
+                              2   sum(A (n), n, 1, N)
+(%o49)              p(N) := a0  + -------------------
+                                           2
+(%i50) energie:map(p,entier);
+(%o50) [P(1), P(2), P(3), P(4), P(5), P(6), P(7), P(8), P(9), P(10)]
+(%i51) energie:map(p,entier);
+         2      5       49       205      5269       5369       266681
+(%o51) [----, ------, -------, -------, ---------, ---------, ----------, 
+           2       2        2        2          2          2           2
+        %pi   2 %pi   18 %pi   72 %pi   1800 %pi   1800 %pi   88200 %pi
+                                     1077749      9778141       1968329
+                                   -----------, ------------, -----------]
+                                             2             2            2
+                                   352800 %pi   3175200 %pi   635040 %pi
+(%i52) energie:map(p,entier);
+                                                               2      5       49       205      5269       5369       266681      1077749      9778141       1968329
+(%o52)                                                       [----, ------, -------, -------, ---------, ---------, ----------, -----------, ------------, -----------]
+                                                                 2       2        2        2          2          2           2            2             2            2
+                                                              %pi   2 %pi   18 %pi   72 %pi   1800 %pi   1800 %pi   88200 %pi   352800 %pi   3175200 %pi   635040 %pi
+(%i53) float(energie);
+(%o53)                  [0.20264236728468, 0.25330295910584, 0.27581877769303, 0.28848392564832, 0.29658962033971, 0.30221857498651, 0.30635413350252, 0.30952042049134, 0.31202217811214, 0.31404860178499]
+(%i54) 
